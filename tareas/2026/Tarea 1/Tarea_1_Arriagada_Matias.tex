@@ -1,0 +1,2144 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Tarea\_1\_Arriagada\_Matias}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \section{Tarea 1}\label{tarea-1}
+
+\subsubsection{Matías Arriagada R. \textbar{} 2022445068 \textbar{}
+matiaarriagada2022@udec.cl}\label{matuxedas-arriagada-r.-2022445068-matiaarriagada2022udec.cl}
+
+Esta tarea fue realizada a partir de los datos suministrados por el
+profesor y los alumnos ayudantes. Se utilizo Inteligencia Artificial
+para realizar el codigo, la interpretación fue realizada en base a los
+conocimientos adquiridos en clases teoricas y prácticas.
+
+    \section{1. cargar base de datos, identificación de variables y
+tratamiento.}\label{cargar-base-de-datos-identificaciuxf3n-de-variables-y-tratamiento.}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{39}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Importamos las librerias}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{pandas}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{pd}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{plt}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{seaborn}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{sns}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{missingno}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{msno}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{LinearRegression}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{,} \PY{n}{r2\PYZus{}score}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{statsmodels}\PY{n+nn}{.}\PY{n+nn}{api}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{sm}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{statsmodels}\PY{n+nn}{.}\PY{n+nn}{formula}\PY{n+nn}{.}\PY{n+nn}{api}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{smf}
+\PY{c+c1}{\PYZsh{} Ajustamos la librería de stargazer para mostrar los resultados de los modelos}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{stargazer}\PY{n+nn}{.}\PY{n+nn}{stargazer}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{Stargazer}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{core}\PY{n+nn}{.}\PY{n+nn}{display}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{HTML}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{Tratamiento a los datos}\label{tratamiento-a-los-datos}
+
+Anteriormente a ejecutar el codigo completo, se pudo observar usando
+data wrangler, que existe una columna llamada ``drug\_use'' que estaba
+con casi la mitad de los datos faltantes, se utilizo el criterio de
+eliminación para eso. Para datos respectivos con más de 5 columnas
+vacías se decidió eliminarlas para evitar imputar con datos que tal vez
+no aporten una solución real a los datos.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{40}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}realizamos la lectura del dataset}
+\PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{student\PYZus{}productivity.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}Copiare el dataframe para no modificar el original}
+\PY{n}{data} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Eliminaría la columna de drug use debido a que esta practicamente no tiene datos y no aportaría nada al análisis}
+\PY{n}{data}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{drug\PYZus{}use}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}Eliminaría las filas que están vacías debido a que no aportan nada al análisis y podrían afectar los resultados, pero solo las que tienen toda la fila vacía, ya que si solo tienen una o dos columnas vacías podrían ser rellenadas con la media o la moda dependiendo del tipo de dato.}
+\PY{n}{data}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{n}{how}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{all}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)} \PY{c+c1}{\PYZsh{}No sirvió eliminar las filas vacías, ya que no hay filas vacías, por lo que se eliminaron las filas que tienen más de 5 columnas vacías, ya que estas filas no aportan nada al análisis y podrían afectar los resultados.}
+\PY{c+c1}{\PYZsh{}Eliminaría las filas que tienen más de 5 columnas vacías, ya que estas filas no aportan nada al análisis y podrían afectar los resultados.}
+\PY{n}{data}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{n}{thresh}\PY{o}{=}\PY{n}{data}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{l+m+mi}{6}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} para internet\PYZus{}quality eliminaremos los NaN}
+\PY{n}{data} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{n}{subset}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{internet\PYZus{}quality}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}Veemos el gráfico de missingno para ver los datos faltantes}
+\PY{n}{msno}\PY{o}{.}\PY{n}{matrix}\PY{p}{(}\PY{n}{data}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+(5621, 22)
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Tarea_1_Arriagada_Matias_files/Tarea_1_Arriagada_Matias_4_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{41}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}\PYZsh{} Revisamos el comportamiento de las variables numéricas}
+\PY{n}{data}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{41}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+        student\_id          age  study\_hours  self\_study\_hours  \textbackslash{}
+count  4926.000000  4766.000000  4808.000000       4787.000000
+mean   2800.791717    20.510491     4.533852          2.480727
+std    1623.992039     2.864955     1.819967          1.175765
+min       1.000000    16.000000     0.000000          0.000000
+25\%    1391.250000    18.000000     3.257500          1.660000
+50\%    2789.500000    20.000000     4.530000          2.480000
+75\%    4215.750000    23.000000     5.760000          3.280000
+max    5621.000000    25.000000    11.840000          7.410000
+
+       online\_classes\_hours  social\_media\_hours  gaming\_hours  sleep\_hours  \textbackslash{}
+count           4782.000000         4778.000000   4789.000000  4841.000000
+mean               2.009258            2.999548      1.568050     7.019632
+std                0.985594            1.471163      1.111948     1.163075
+min                0.000000            0.000000      0.000000     4.000000
+25\%                1.310000            1.990000      0.670000     6.240000
+50\%                2.010000            2.980000      1.490000     7.010000
+75\%                2.680000            4.030000      2.350000     7.820000
+max                6.000000            8.280000      5.640000    10.000000
+
+       screen\_time\_hours  caffeine\_intake\_mg  upcoming\_deadline  \textbackslash{}
+count        4868.000000         4812.000000        4785.000000
+mean            6.984665          251.254988           0.499687
+std             2.484508          143.856737           0.500052
+min             1.000000            0.000000           0.000000
+25\%             5.280000          129.000000           0.000000
+50\%             6.950000          252.000000           0.000000
+75\%             8.710000          375.000000           1.000000
+max            15.300000          499.000000           1.000000
+
+       mental\_health\_score  focus\_index  burnout\_level  productivity\_score  \textbackslash{}
+count          4795.000000  4783.000000    4768.000000         4832.000000
+mean              5.511575    29.432084      45.624312           37.302256
+std               2.875171     9.978978      14.251814           16.849208
+min               1.000000     1.000000       1.000000            1.000000
+25\%               3.000000    22.560000      35.727500           25.372500
+50\%               5.000000    29.430000      45.630000           36.865000
+75\%               8.000000    36.230000      55.362500           49.172500
+max              10.000000    63.480000      97.580000           98.020000
+
+        exam\_score
+count  4747.000000
+mean     18.870929
+std      12.152109
+min       1.000000
+25\%       9.400000
+50\%      18.010000
+75\%      27.465000
+max      64.090000
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \subsection{Criterios de imputación utilizados en la limpieza de
+datos}\label{criterios-de-imputaciuxf3n-utilizados-en-la-limpieza-de-datos}
+
+\paragraph{Consideraciones previas}\label{consideraciones-previas}
+
+\begin{itemize}
+\tightlist
+\item
+  La variable \texttt{age} tiene un rango válido de 16 a 25 años, por lo
+  que imputar con la media es razonable.
+\item
+  Las variables \texttt{study\_hours}, \texttt{self\_study\_hours} y
+  \texttt{online\_classes\_hours} son de tipo flotante y presentan
+  distribuciones que justifican el uso de media o mediana según el caso.
+\item
+  Se ha priorizado la robustez frente a outliers usando mediana cuando
+  la distribución lo sugiere.
+\end{itemize}
+
+\paragraph{Variables imputadas con la
+media}\label{variables-imputadas-con-la-media}
+
+Se eligió la media porque estas variables muestran distribuciones
+simétricas o media y mediana prácticamente iguales:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{age}
+\item
+  \texttt{study\_hours}
+\item
+  \texttt{self\_study\_hours}
+\item
+  \texttt{online\_classes\_hours}
+\item
+  \texttt{sleep\_hours}
+\item
+  \texttt{screen\_time\_hours}
+\item
+  \texttt{focus\_index}
+\item
+  \texttt{burnout\_level}
+\end{itemize}
+
+\paragraph{Variables imputadas con la
+mediana}\label{variables-imputadas-con-la-mediana}
+
+Se prefirió la mediana para minimizar el impacto de posibles valores
+atípicos o asimetrías leves:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{social\_media\_hours}
+\item
+  \texttt{gaming\_hours}
+\item
+  \texttt{caffeine\_intake\_mg}
+\item
+  \texttt{mental\_health\_score}
+\item
+  \texttt{productivity\_score}
+\end{itemize}
+
+\paragraph{Variable imputada con la
+moda}\label{variable-imputada-con-la-moda}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{upcoming\_deadline} (variable binaria, se usó el valor más
+  frecuente)
+\end{itemize}
+
+\paragraph{Resumen en tabla}\label{resumen-en-tabla}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.4211}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5789}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Método
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Variables
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Media} & age, study\_hours, self\_study\_hours,
+online\_classes\_hours, sleep\_hours, screen\_time\_hours, focus\_index,
+burnout\_level \\
+\textbf{Mediana} & social\_media\_hours, gaming\_hours,
+caffeine\_intake\_mg, mental\_health\_score, productivity\_score \\
+\textbf{Moda} & upcoming\_deadline \\
+\end{longtable}
+}
+
+    \subsection{Limpieza de datos}\label{limpieza-de-datos}
+
+A continuación realizaremos la limpieza de datos, se utilizará el
+criterio de imputar datos con la media para datos que tengan una
+distribución mucho más limpia por así decirlo y la mediana para datos
+que tengan mayor varianza, para el caso de las variables categóricas se
+decidirá el utilizar la moda. Todos estos criterios son realizados a
+partir de la falta del 10\% de los datos o que no signifiquen una
+cantidad que pueda causar cierto sesgo al momento de realizar los
+modelos.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{42}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Datos con la media para estos datos: \PYZhy{} `age`, `study\PYZus{}hours``self\PYZus{}study\PYZus{}hours``online\PYZus{}classes\PYZus{}hours``sleep\PYZus{}hours``screen\PYZus{}time\PYZus{}hours``focus\PYZus{}index``burnout\PYZus{}level`}
+\PY{c+c1}{\PYZsh{}Añade con 2 decimales}
+
+\PY{c+c1}{\PYZsh{} Permite activar/desactivar el redondeo de imputaciones a 2 decimales}
+\PY{n}{redondear} \PY{o}{=} \PY{k+kc}{True}
+\PY{n}{decimales} \PY{o}{=} \PY{l+m+mi}{2}
+
+\PY{n}{columnas\PYZus{}media} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{study\PYZus{}hours}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{self\PYZus{}study\PYZus{}hours}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{online\PYZus{}classes\PYZus{}hours}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sleep\PYZus{}hours}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{screen\PYZus{}time\PYZus{}hours}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{focus\PYZus{}index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{burnout\PYZus{}level}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{columnas\PYZus{}media}\PY{p}{:}
+    \PY{n}{valor} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+    \PY{k}{if} \PY{n}{redondear}\PY{p}{:}
+        \PY{n}{valor} \PY{o}{=} \PY{n+nb}{round}\PY{p}{(}\PY{n}{valor}\PY{p}{,} \PY{n}{decimales}\PY{p}{)}
+    \PY{n}{data}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{n}{valor}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}Datos con la mediana}
+\PY{n}{columnas\PYZus{}mediana} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{social\PYZus{}media\PYZus{}hours}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{caffeine\PYZus{}intake\PYZus{}mg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mental\PYZus{}health\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{productivity\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{p}{]} \PY{c+c1}{\PYZsh{}Por la caracteristicas de los datos las gaming hours es mejor no incorporarlas}
+\PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{columnas\PYZus{}mediana}\PY{p}{:}
+    \PY{n}{valor} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{median}\PY{p}{(}\PY{p}{)}
+    \PY{k}{if} \PY{n}{redondear}\PY{p}{:}
+        \PY{n}{valor} \PY{o}{=} \PY{n+nb}{round}\PY{p}{(}\PY{n}{valor}\PY{p}{,} \PY{n}{decimales}\PY{p}{)}
+    \PY{n}{data}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{n}{valor}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Si se quiere mantener todas las columnas numéricas con 2 decimales tras imputar}
+\PY{k}{if} \PY{n}{redondear}\PY{p}{:}
+    \PY{n}{data}\PY{p}{[}\PY{n}{columnas\PYZus{}media} \PY{o}{+} \PY{n}{columnas\PYZus{}mediana}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{n}{columnas\PYZus{}media} \PY{o}{+} \PY{n}{columnas\PYZus{}mediana}\PY{p}{]}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{n}{decimales}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}Datos con la moda \PYZdq{}upcoming\PYZus{}deadeline\PYZdq{}}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{upcoming\PYZus{}deadline}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{upcoming\PYZus{}deadline}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mode}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{internet\PYZus{}quality}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{internet\PYZus{}quality}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{str}\PY{p}{)}
+\PY{n}{moda} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{internet\PYZus{}quality}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mode}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{internet\PYZus{}quality}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{n}{moda}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Normalización previa (opcional)}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gender}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gender}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Male}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Male}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Female}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Female}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+\PY{p}{\PYZcb{}}\PY{p}{)}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Other}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}Rellenamos con la media lo que sería para academic grade}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{academic\PYZus{}level}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{academic\PYZus{}level}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mode}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}Quitamos el min a la variable exercise\PYZus{}minutes y solo lo dejamos en datos enteros}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exercise\PYZus{}minutes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exercise\PYZus{}minutes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{extract}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{(}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{d+}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{.?}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{d*)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+C:\textbackslash{}Users\textbackslash{}Matias Arriagada R\textbackslash{}AppData\textbackslash{}Local\textbackslash{}Temp\textbackslash{}ipykernel\_28528\textbackslash{}463152142.py:13:
+FutureWarning: A value is trying to be set on a copy of a DataFrame or Series
+through chained assignment using an inplace method.
+The behavior will change in pandas 3.0. This inplace method will never work
+because the intermediate object on which we are setting values always behaves as
+a copy.
+
+For example, when doing 'df[col].method(value, inplace=True)', try using
+'df.method(\{col: value\}, inplace=True)' or df[col] = df[col].method(value)
+instead, to perform the operation inplace on the original object.
+
+
+  data[col].fillna(valor, inplace=True)
+C:\textbackslash{}Users\textbackslash{}Matias Arriagada R\textbackslash{}AppData\textbackslash{}Local\textbackslash{}Temp\textbackslash{}ipykernel\_28528\textbackslash{}463152142.py:21:
+FutureWarning: A value is trying to be set on a copy of a DataFrame or Series
+through chained assignment using an inplace method.
+The behavior will change in pandas 3.0. This inplace method will never work
+because the intermediate object on which we are setting values always behaves as
+a copy.
+
+For example, when doing 'df[col].method(value, inplace=True)', try using
+'df.method(\{col: value\}, inplace=True)' or df[col] = df[col].method(value)
+instead, to perform the operation inplace on the original object.
+
+
+  data[col].fillna(valor, inplace=True)
+C:\textbackslash{}Users\textbackslash{}Matias Arriagada R\textbackslash{}AppData\textbackslash{}Local\textbackslash{}Temp\textbackslash{}ipykernel\_28528\textbackslash{}463152142.py:21:
+FutureWarning: A value is trying to be set on a copy of a DataFrame or Series
+through chained assignment using an inplace method.
+The behavior will change in pandas 3.0. This inplace method will never work
+because the intermediate object on which we are setting values always behaves as
+a copy.
+
+For example, when doing 'df[col].method(value, inplace=True)', try using
+'df.method(\{col: value\}, inplace=True)' or df[col] = df[col].method(value)
+instead, to perform the operation inplace on the original object.
+
+
+  data[col].fillna(valor, inplace=True)
+C:\textbackslash{}Users\textbackslash{}Matias Arriagada R\textbackslash{}AppData\textbackslash{}Local\textbackslash{}Temp\textbackslash{}ipykernel\_28528\textbackslash{}463152142.py:21:
+FutureWarning: A value is trying to be set on a copy of a DataFrame or Series
+through chained assignment using an inplace method.
+The behavior will change in pandas 3.0. This inplace method will never work
+because the intermediate object on which we are setting values always behaves as
+a copy.
+
+For example, when doing 'df[col].method(value, inplace=True)', try using
+'df.method(\{col: value\}, inplace=True)' or df[col] = df[col].method(value)
+instead, to perform the operation inplace on the original object.
+
+
+  data[col].fillna(valor, inplace=True)
+C:\textbackslash{}Users\textbackslash{}Matias Arriagada R\textbackslash{}AppData\textbackslash{}Local\textbackslash{}Temp\textbackslash{}ipykernel\_28528\textbackslash{}463152142.py:21:
+FutureWarning: A value is trying to be set on a copy of a DataFrame or Series
+through chained assignment using an inplace method.
+The behavior will change in pandas 3.0. This inplace method will never work
+because the intermediate object on which we are setting values always behaves as
+a copy.
+
+For example, when doing 'df[col].method(value, inplace=True)', try using
+'df.method(\{col: value\}, inplace=True)' or df[col] = df[col].method(value)
+instead, to perform the operation inplace on the original object.
+
+
+  data[col].fillna(valor, inplace=True)
+C:\textbackslash{}Users\textbackslash{}Matias Arriagada R\textbackslash{}AppData\textbackslash{}Local\textbackslash{}Temp\textbackslash{}ipykernel\_28528\textbackslash{}463152142.py:28:
+FutureWarning: A value is trying to be set on a copy of a DataFrame or Series
+through chained assignment using an inplace method.
+The behavior will change in pandas 3.0. This inplace method will never work
+because the intermediate object on which we are setting values always behaves as
+a copy.
+
+For example, when doing 'df[col].method(value, inplace=True)', try using
+'df.method(\{col: value\}, inplace=True)' or df[col] = df[col].method(value)
+instead, to perform the operation inplace on the original object.
+
+
+  data['upcoming\_deadline'].fillna(data['upcoming\_deadline'].mode()[0],
+inplace=True)
+C:\textbackslash{}Users\textbackslash{}Matias Arriagada R\textbackslash{}AppData\textbackslash{}Local\textbackslash{}Temp\textbackslash{}ipykernel\_28528\textbackslash{}463152142.py:31:
+FutureWarning: A value is trying to be set on a copy of a DataFrame or Series
+through chained assignment using an inplace method.
+The behavior will change in pandas 3.0. This inplace method will never work
+because the intermediate object on which we are setting values always behaves as
+a copy.
+
+For example, when doing 'df[col].method(value, inplace=True)', try using
+'df.method(\{col: value\}, inplace=True)' or df[col] = df[col].method(value)
+instead, to perform the operation inplace on the original object.
+
+
+  data['internet\_quality'].fillna(moda, inplace=True)
+C:\textbackslash{}Users\textbackslash{}Matias Arriagada R\textbackslash{}AppData\textbackslash{}Local\textbackslash{}Temp\textbackslash{}ipykernel\_28528\textbackslash{}463152142.py:40:
+FutureWarning: A value is trying to be set on a copy of a DataFrame or Series
+through chained assignment using an inplace method.
+The behavior will change in pandas 3.0. This inplace method will never work
+because the intermediate object on which we are setting values always behaves as
+a copy.
+
+For example, when doing 'df[col].method(value, inplace=True)', try using
+'df.method(\{col: value\}, inplace=True)' or df[col] = df[col].method(value)
+instead, to perform the operation inplace on the original object.
+
+
+  data['academic\_level'].fillna(data['academic\_level'].mode()[0], inplace=True)
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{43}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exercise\PYZus{}minutes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exercise\PYZus{}minutes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{str}\PY{p}{)}  \PY{c+c1}{\PYZsh{} asegurar string}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exercise\PYZus{}minutes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exercise\PYZus{}minutes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{min}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{regex}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exercise\PYZus{}minutes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exercise\PYZus{}minutes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{p}{)}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exercise\PYZus{}minutes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exercise\PYZus{}minutes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exercise\PYZus{}minutes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}numeric}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exercise\PYZus{}minutes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{errors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coerce}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+
+\PY{n}{mediana} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exercise\PYZus{}minutes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{median}\PY{p}{(}\PY{p}{)}
+\PY{n}{mediana} \PY{o}{=} \PY{n+nb}{round}\PY{p}{(}\PY{n}{mediana}\PY{p}{)}   \PY{c+c1}{\PYZsh{} si quieres entero}
+
+\PY{c+c1}{\PYZsh{} 4. Imputar valores faltantes}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exercise\PYZus{}minutes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{n}{mediana}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 5. (Opcional) convertir a entero si todos los valores son enteros o no importan decimales}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exercise\PYZus{}minutes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exercise\PYZus{}minutes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}Pasamos la data a hora}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{exercise\PYZus{}minutes}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{exercise\PYZus{}minutes}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{l+m+mi}{60}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{exercise\PYZus{}minutes}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{exercise\PYZus{}minutes}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}Tenemos problemas con lo que es la variable gaming hours y part time job}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{gaming\PYZus{}hours}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{gaming\PYZus{}hours}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{gaming\PYZus{}hours}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gaming\PYZus{}hours}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{median}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{gaming\PYZus{}hours}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{gaming\PYZus{}hours}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}Ahora seguimos con los part\PYZus{}time\PYZus{}job}
+\PY{c+c1}{\PYZsh{} 2. Convertir a string (por si hay mezcla de tipos)}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{part\PYZus{}time\PYZus{}job}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{part\PYZus{}time\PYZus{}job}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{str}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 3. Reemplazar el string \PYZsq{}nan\PYZsq{} por NaN real (pd.NA o np.nan)}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{part\PYZus{}time\PYZus{}job}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{part\PYZus{}time\PYZus{}job}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{nan}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{pd}\PY{o}{.}\PY{n}{NA}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 4. Normalizar mayúsculas: \PYZsq{}yes\PYZsq{}/\PYZsq{}Yes\PYZsq{} \PYZhy{}\PYZgt{} \PYZsq{}Yes\PYZsq{}, \PYZsq{}no\PYZsq{}/\PYZsq{}No\PYZsq{} \PYZhy{}\PYZgt{} \PYZsq{}No\PYZsq{}}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{part\PYZus{}time\PYZus{}job}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{part\PYZus{}time\PYZus{}job}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{capitalize}\PY{p}{(}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Convierte \PYZsq{}yes\PYZsq{} a \PYZsq{}Yes\PYZsq{}, \PYZsq{}no\PYZsq{} a \PYZsq{}No\PYZsq{}}
+
+\PY{c+c1}{\PYZsh{} 5. Verificar resultado después de normalizar}
+\PY{n}{moda} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{part\PYZus{}time\PYZus{}job}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mode}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{part\PYZus{}time\PYZus{}job}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{n}{moda}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 6. Aproximaremos los valores de edad}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{age}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{age}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{trunc}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 7. Revise que los valores de academic\PYZus{}level tienen un espacio al final}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{academic\PYZus{}level}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{academic\PYZus{}level}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 8. Aproximaremos los valores de edad}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{upcoming\PYZus{}deadline}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{upcoming\PYZus{}deadline}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{trunc}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Info después de imputar:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{part\PYZus{}time\PYZus{}job}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}Observare a priori la variabl que es la queremos analizar que es el exam\PYZus{}score}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{exam\PYZus{}score}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}Sacamos los NaN de lo que es el exam\PYZus{}score para poder analizarlo mejor}
+\PY{n}{data} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{n}{subset}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exam\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}Le haré una masacra para ver la distribución de los datos, los agruparé para exam score, veré cuantos son 1 y el resto agruparlos hasta llegar a 65 que es el promedio de los datos, y luego agruparé el resto hasta llegar a 100 que es el máximo de los datos, esto para ver la distribución de los datos y ver si hay algún patrón en los datos.}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{exam\PYZus{}score\PYZus{}group}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{cut}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{exam\PYZus{}score}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{30}\PY{p}{,} \PY{l+m+mi}{65}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{]}\PY{p}{,} \PY{n}{labels}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0\PYZhy{}1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{2\PYZhy{}30}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{31\PYZhy{}65}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{66\PYZhy{}100}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{exam\PYZus{}score\PYZus{}group}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}Veemos la matriz como queda}
+\PY{n}{msno}\PY{o}{.}\PY{n}{matrix}\PY{p}{(}\PY{n}{data}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\PY{n}{df}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+C:\textbackslash{}Users\textbackslash{}Matias Arriagada R\textbackslash{}AppData\textbackslash{}Local\textbackslash{}Temp\textbackslash{}ipykernel\_28528\textbackslash{}1679447269.py:12:
+FutureWarning: A value is trying to be set on a copy of a DataFrame or Series
+through chained assignment using an inplace method.
+The behavior will change in pandas 3.0. This inplace method will never work
+because the intermediate object on which we are setting values always behaves as
+a copy.
+
+For example, when doing 'df[col].method(value, inplace=True)', try using
+'df.method(\{col: value\}, inplace=True)' or df[col] = df[col].method(value)
+instead, to perform the operation inplace on the original object.
+
+
+  data['exercise\_minutes'].fillna(mediana, inplace=True)
+C:\textbackslash{}Users\textbackslash{}Matias Arriagada R\textbackslash{}AppData\textbackslash{}Local\textbackslash{}Temp\textbackslash{}ipykernel\_28528\textbackslash{}1679447269.py:37:
+FutureWarning: A value is trying to be set on a copy of a DataFrame or Series
+through chained assignment using an inplace method.
+The behavior will change in pandas 3.0. This inplace method will never work
+because the intermediate object on which we are setting values always behaves as
+a copy.
+
+For example, when doing 'df[col].method(value, inplace=True)', try using
+'df.method(\{col: value\}, inplace=True)' or df[col] = df[col].method(value)
+instead, to perform the operation inplace on the original object.
+
+
+  data["part\_time\_job"].fillna(moda, inplace=True)
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+Info después de imputar:
+<class 'pandas.core.series.Series'>
+Index: 4926 entries, 0 to 5620
+Series name: part\_time\_job
+Non-Null Count  Dtype
+--------------  -----
+4926 non-null   object
+dtypes: object(1)
+memory usage: 77.0+ KB
+None
+count    4747.000000
+mean       18.870929
+std        12.152109
+min         1.000000
+25\%         9.400000
+50\%        18.010000
+75\%        27.465000
+max        64.090000
+Name: exam\_score, dtype: float64
+exam\_score\_group
+2-30      3411
+31-65      912
+0-1        424
+66-100       0
+Name: count, dtype: int64
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Tarea_1_Arriagada_Matias_files/Tarea_1_Arriagada_Matias_9_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{43}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+      student\_id   age  gender  academic\_level  study\_hours  self\_study\_hours  \textbackslash{}
+0              1  20.0     NaN   Undergraduate         5.37              2.09
+1              2  16.0  Female     High School         5.85              5.04
+2              3  18.0  Female   Undergraduate         5.69              2.27
+3              4  24.0    Male  Undergraduate          2.32              1.06
+4              5  24.0  Female    Postgraduate         3.87              2.63
+{\ldots}          {\ldots}   {\ldots}     {\ldots}             {\ldots}          {\ldots}               {\ldots}
+5616        5617  21.0    Male    Postgraduate         4.16              0.00
+5617        5618  25.0  Female             NaN          NaN               NaN
+5618        5619   NaN     NaN             NaN          NaN               NaN
+5619        5620   NaN     NaN             NaN          NaN               NaN
+5620        5621  18.0    Male    Postgraduate         3.96              0.98
+
+      online\_classes\_hours  social\_media\_hours  gaming\_hours  sleep\_hours  \textbackslash{}
+0                     1.85                3.66          2.32         7.73
+1                     1.87                3.60          2.79         6.11
+2                     0.00                2.93          3.94         7.11
+3                     2.30                4.34          2.37         8.54
+4                     2.54                3.71          1.30         7.69
+{\ldots}                    {\ldots}                 {\ldots}           {\ldots}          {\ldots}
+5616                  1.27                4.01          3.41         8.07
+5617                   NaN                5.18           NaN          NaN
+5618                   NaN                 NaN           NaN          NaN
+5619                   NaN                3.52           NaN          NaN
+5620                  1.77                4.35          2.22         6.57
+
+      {\ldots}  caffeine\_intake\_mg part\_time\_job  upcoming\_deadline  \textbackslash{}
+0     {\ldots}               475.0            No                0.0
+1     {\ldots}               362.0            no                0.0
+2     {\ldots}               200.0            No                0.0
+3     {\ldots}               233.0            No                1.0
+4     {\ldots}               159.0            No                1.0
+{\ldots}   {\ldots}                 {\ldots}           {\ldots}                {\ldots}
+5616  {\ldots}               152.0            no                1.0
+5617  {\ldots}                 NaN           NaN                NaN
+5618  {\ldots}                 NaN           Yes                NaN
+5619  {\ldots}                 NaN           NaN                NaN
+5620  {\ldots}               154.0            No                0.0
+
+     internet\_quality  mental\_health\_score drug\_use  focus\_index  \textbackslash{}
+0                Good                  3.0      NaN        19.01
+1                Good                 10.0      NaN        42.10
+2             Average                  5.0      NaN        21.93
+3                Poor                  3.0      1.0        13.47
+4                Poor                  2.0      NaN        19.95
+{\ldots}               {\ldots}                  {\ldots}      {\ldots}          {\ldots}
+5616             Poor                  7.0      NaN        21.78
+5617              NaN                  8.0      NaN          NaN
+5618              NaN                  NaN      NaN          NaN
+5619              NaN                  NaN      NaN          NaN
+5620             Poor                  3.0      1.0        16.28
+
+      burnout\_level  productivity\_score  exam\_score
+0             31.77               42.59       25.08
+1             45.89               67.15       37.83
+2             37.07               37.68       18.66
+3             43.63               12.83        1.00
+4             56.62               18.53        7.78
+{\ldots}             {\ldots}                 {\ldots}         {\ldots}
+5616          48.07               43.06       17.15
+5617            NaN               42.52       21.06
+5618            NaN                 NaN         NaN
+5619            NaN                 NaN         NaN
+5620          36.62               21.36        2.81
+
+[5621 rows x 22 columns]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \paragraph{Ahora añadimos columnas para datos que sean
+condicionales}\label{ahora-auxf1adimos-columnas-para-datos-que-sean-condicionales}
+
+Esto con el fin de añadir cierto significado o tratamiento previo a las
+variables de cara al modelo. Este tratamiento lo utilizaremos para
+inducir cierto comportamiento interpretativo al dataset.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{44}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Añadimos columnas para gaming\PYZus{}hours cuando es cero para saber si juegan o no, lo mismo para exam score}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{plays\PYZus{}games}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gaming\PYZus{}hours}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Exam}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exam\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{l+m+mf}{1.0}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Networks}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{social\PYZus{}media\PYZus{}hours}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{\PYZgt{}} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{part\PYZus{}time\PYZus{}job\PYZus{}Y\PYZus{}N}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{part\PYZus{}time\PYZus{}job}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Yes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{No}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{\PYZcb{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}las cosas anteriores las obligamos a ser variables numericas para que puedan ser utilizadas en el análisis y modelado posterior.}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{plays\PYZus{}games}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{plays\PYZus{}games}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Exam}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Exam}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Networks}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Networks}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)} 
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{part\PYZus{}time\PYZus{}job\PYZus{}Y\PYZus{}N}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{part\PYZus{}time\PYZus{}job\PYZus{}Y\PYZus{}N}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}numeric}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{errors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coerce}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{columnas} \PY{o}{=} \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{plays\PYZus{}games}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Exam}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Networks}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{columnas}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{unique}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+<bound method Series.unique of 0       1
+1       1
+2       1
+3       1
+4       1
+       ..
+5609    1
+5610    1
+5612    1
+5616    1
+5620    1
+Name: plays\_games, Length: 4747, dtype: int32>
+<bound method Series.unique of 0       1
+1       1
+2       1
+3       0
+4       1
+       ..
+5609    1
+5610    1
+5612    1
+5616    1
+5620    1
+Name: Exam, Length: 4747, dtype: int32>
+<bound method Series.unique of 0       1
+1       1
+2       1
+3       1
+4       1
+       ..
+5609    1
+5610    1
+5612    1
+5616    1
+5620    1
+Name: Networks, Length: 4747, dtype: int32>
+    \end{Verbatim}
+
+    \subsection{verificación de los
+datos}\label{verificaciuxf3n-de-los-datos}
+
+\begin{itemize}
+\tightlist
+\item
+  Antes de realizar el modelo, por motivos de buena practica leeré los
+  datos en general para ver si quedaron datos NaN y adicionalmente los
+  valores unicos de los datos.
+\item
+  Se forzo el uso de variables númericas en algunos casos para evitar
+  tener que solucionar problemas dentro de las celdas de los codigos.
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{45}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Versión mínima para ver la data}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{INFORMACIÓN DEL DATAFRAME:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Dimensiones: }\PY{l+s+si}{\PYZob{}}\PY{n}{data}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Columnas: }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{list}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{columns}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Tipos:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+si}{\PYZob{}}\PY{n}{data}\PY{o}{.}\PY{n}{dtypes}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Primeras 3 filas:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+si}{\PYZob{}}\PY{n}{data}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Estadísticas numéricas:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+si}{\PYZob{}}\PY{n}{data}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Valores nulos:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+si}{\PYZob{}}\PY{n}{data}\PY{o}{.}\PY{n}{isnull}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Valores únicos en categóricas:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{data}\PY{o}{.}\PY{n}{select\PYZus{}dtypes}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{object}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{columns}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{col}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{: }\PY{l+s+si}{\PYZob{}}\PY{n}{data}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{5}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{dtypes}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Seleccionar solo las variables numéricas para la correlación}
+\PY{n}{numeric\PYZus{}data} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{select\PYZus{}dtypes}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{float64}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{int64}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{int32}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Calcular la matriz de correlación}
+\PY{n}{corr\PYZus{}matrix} \PY{o}{=} \PY{n}{numeric\PYZus{}data}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Generar el mapa de calor}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}\PY{n}{corr\PYZus{}matrix}\PY{p}{,} \PY{n}{annot}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{.2f}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coolwarm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Matriz de Correlación de Variables}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+INFORMACIÓN DEL DATAFRAME:
+Dimensiones: (4747, 26)
+
+Columnas: ['student\_id', 'age', 'gender', 'academic\_level', 'study\_hours',
+'self\_study\_hours', 'online\_classes\_hours', 'social\_media\_hours',
+'gaming\_hours', 'sleep\_hours', 'screen\_time\_hours', 'exercise\_minutes',
+'caffeine\_intake\_mg', 'part\_time\_job', 'upcoming\_deadline', 'internet\_quality',
+'mental\_health\_score', 'focus\_index', 'burnout\_level', 'productivity\_score',
+'exam\_score', 'exam\_score\_group', 'plays\_games', 'Exam', 'Networks',
+'part\_time\_job\_Y\_N']
+
+Tipos:
+student\_id                 int64
+age                      float64
+gender                    object
+academic\_level            object
+study\_hours              float64
+self\_study\_hours         float64
+online\_classes\_hours     float64
+social\_media\_hours       float64
+gaming\_hours             float64
+sleep\_hours              float64
+screen\_time\_hours        float64
+exercise\_minutes         float64
+caffeine\_intake\_mg       float64
+part\_time\_job             object
+upcoming\_deadline        float64
+internet\_quality          object
+mental\_health\_score      float64
+focus\_index              float64
+burnout\_level            float64
+productivity\_score       float64
+exam\_score               float64
+exam\_score\_group        category
+plays\_games                int32
+Exam                       int32
+Networks                   int32
+part\_time\_job\_Y\_N          int32
+dtype: object
+
+Primeras 3 filas:
+   student\_id   age gender academic\_level  study\_hours  self\_study\_hours  \textbackslash{}
+0           1  20.0  Other  Undergraduate         5.37              2.09
+1           2  16.0  Other    High School         5.85              5.04
+2           3  18.0  Other  Undergraduate         5.69              2.27
+
+   online\_classes\_hours  social\_media\_hours  gaming\_hours  sleep\_hours  {\ldots}  \textbackslash{}
+0                  1.85                3.66          2.32         7.73  {\ldots}
+1                  1.87                3.60          2.79         6.11  {\ldots}
+2                  0.00                2.93          3.94         7.11  {\ldots}
+
+   mental\_health\_score  focus\_index  burnout\_level productivity\_score  \textbackslash{}
+0                  3.0        19.01          31.77              42.59
+1                 10.0        42.10          45.89              67.15
+2                  5.0        21.93          37.07              37.68
+
+   exam\_score exam\_score\_group  plays\_games  Exam  Networks  part\_time\_job\_Y\_N
+0       25.08             2-30            1     1         1                  0
+1       37.83            31-65            1     1         1                  0
+2       18.66             2-30            1     1         1                  0
+
+[3 rows x 26 columns]
+
+Estadísticas numéricas:
+        student\_id          age  study\_hours  self\_study\_hours  \textbackslash{}
+count  4747.000000  4747.000000  4747.000000       4747.000000
+mean   2806.283337    20.495892     4.537312          2.479465
+std    1622.232757     2.823083     1.799874          1.160747
+min       1.000000    16.000000     0.000000          0.000000
+25\%    1402.500000    18.000000     3.290000          1.680000
+50\%    2797.000000    20.000000     4.530000          2.480000
+75\%    4217.500000    23.000000     5.740000          3.270000
+max    5621.000000    25.000000    11.840000          7.410000
+
+       online\_classes\_hours  social\_media\_hours  gaming\_hours  sleep\_hours  \textbackslash{}
+count           4747.000000         4747.000000    4747.00000  4747.000000
+mean               2.013044            2.997508       1.56526     7.023451
+std                0.973355            1.452121       1.10113     1.152048
+min                0.000000            0.000000       0.00000     4.000000
+25\%                1.340000            2.020000       0.69000     6.260000
+50\%                2.010000            2.980000       1.49000     7.020000
+75\%                2.660000            4.000000       2.33000     7.800000
+max                6.000000            8.280000       5.64000    10.000000
+
+       screen\_time\_hours  exercise\_minutes  {\ldots}  upcoming\_deadline  \textbackslash{}
+count        4747.000000       4747.000000  {\ldots}        4747.000000
+mean            6.986174          1.243255  {\ldots}           0.488730
+std             2.477832          0.714441  {\ldots}           0.499926
+min             1.000000          0.000000  {\ldots}           0.000000
+25\%             5.295000          0.620000  {\ldots}           0.000000
+50\%             6.980000          1.250000  {\ldots}           0.000000
+75\%             8.690000          1.870000  {\ldots}           1.000000
+max            15.300000          2.480000  {\ldots}           1.000000
+
+       mental\_health\_score  focus\_index  burnout\_level  productivity\_score  \textbackslash{}
+count          4747.000000  4747.000000    4747.000000         4747.000000
+mean              5.506636    29.485239      45.625757           37.354761
+std               2.846788     9.838087      14.018230           16.722962
+min               1.000000     1.000000       1.000000            1.000000
+25\%               3.000000    22.790000      36.090000           25.610000
+50\%               5.000000    29.430000      45.620000           36.860000
+75\%               8.000000    36.090000      54.875000           48.985000
+max              10.000000    63.480000      97.580000           98.020000
+
+        exam\_score  plays\_games         Exam     Networks  part\_time\_job\_Y\_N
+count  4747.000000  4747.000000  4747.000000  4747.000000        4747.000000
+mean     18.870929     0.891721     0.910680     0.975985           0.482831
+std      12.152109     0.310765     0.285235     0.153112           0.499758
+min       1.000000     0.000000     0.000000     0.000000           0.000000
+25\%       9.400000     1.000000     1.000000     1.000000           0.000000
+50\%      18.010000     1.000000     1.000000     1.000000           0.000000
+75\%      27.465000     1.000000     1.000000     1.000000           1.000000
+max      64.090000     1.000000     1.000000     1.000000           1.000000
+
+[8 rows x 21 columns]
+
+Valores nulos:
+student\_id              0
+age                     0
+gender                  0
+academic\_level          0
+study\_hours             0
+self\_study\_hours        0
+online\_classes\_hours    0
+social\_media\_hours      0
+gaming\_hours            0
+sleep\_hours             0
+screen\_time\_hours       0
+exercise\_minutes        0
+caffeine\_intake\_mg      0
+part\_time\_job           0
+upcoming\_deadline       0
+internet\_quality        0
+mental\_health\_score     0
+focus\_index             0
+burnout\_level           0
+productivity\_score      0
+exam\_score              0
+exam\_score\_group        0
+plays\_games             0
+Exam                    0
+Networks                0
+part\_time\_job\_Y\_N       0
+dtype: int64
+
+Valores únicos en categóricas:
+gender: ['Other']
+academic\_level: ['Undergraduate' 'High School' 'Postgraduate']
+part\_time\_job: ['No' 'Yes']
+internet\_quality: ['Good' 'Average' 'Poor']
+student\_id                 int64
+age                      float64
+gender                    object
+academic\_level            object
+study\_hours              float64
+self\_study\_hours         float64
+online\_classes\_hours     float64
+social\_media\_hours       float64
+gaming\_hours             float64
+sleep\_hours              float64
+screen\_time\_hours        float64
+exercise\_minutes         float64
+caffeine\_intake\_mg       float64
+part\_time\_job             object
+upcoming\_deadline        float64
+internet\_quality          object
+mental\_health\_score      float64
+focus\_index              float64
+burnout\_level            float64
+productivity\_score       float64
+exam\_score               float64
+exam\_score\_group        category
+plays\_games                int32
+Exam                       int32
+Networks                   int32
+part\_time\_job\_Y\_N          int32
+dtype: object
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Tarea_1_Arriagada_Matias_files/Tarea_1_Arriagada_Matias_13_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{Observación}\label{observaciuxf3n}
+
+Aplique un tratamiento a los datos para poder tener un analisís más
+específico en base a la intuición. Para anticipar coeficientes tan
+pequeños o anomalos ante la multiplicación de variables con otras,
+decidi dividir en 10 las variables que van de 1 a 100, para que tengan
+la misma logica que las otras variables. Si bien intuitivamente se
+pierde cierta información tambien ya que se aproximo los valores, fue
+necesario poder establecer un mismo orden de magnitud para todas.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{46}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Realizamos ciertos arreglos a las variables para que puedan ser ajustadas al modelo por ejemplo productivity\PYZus{}score, burnout\PYZus{}level, focus\PYZus{}index y plays\PYZus{}games, ya que estas variables son las que más correlación tienen con el exam score y además son las que más sentido tienen para el análisis y modelado posterior.}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{productivity\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{productivity\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{burnout\PYZus{}level}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{burnout\PYZus{}level}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{focus\PYZus{}index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{focus\PYZus{}index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}Dividiremos en 10 para que queden en una escala del 1 al 100}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{productivity\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{productivity\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{/}\PY{l+m+mi}{10}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{burnout\PYZus{}level}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{burnout\PYZus{}level}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{/}\PY{l+m+mi}{10}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{focus\PYZus{}index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{focus\PYZus{}index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{/}\PY{l+m+mi}{10}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{productivity\PYZus{}score}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{burnout\PYZus{}level}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{focus\PYZus{}index}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{plays\PYZus{}games}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+   productivity\_score  burnout\_level  focus\_index  plays\_games
+0                 4.3            3.2          1.9            1
+1                 6.7            4.6          4.2            1
+2                 3.8            3.7          2.2            1
+3                 1.3            4.4          1.3            1
+4                 1.9            5.7          2.0            1
+    \end{Verbatim}
+
+    \section{2. Ejecutar un modelo de probabilidad (MCO) que permita
+explicar la probabilidad de que un alumno rinda un
+examen.}\label{ejecutar-un-modelo-de-probabilidad-mco-que-permita-explicar-la-probabilidad-de-que-un-alumno-rinda-un-examen.}
+
+\subsubsection{MCO}\label{mco}
+
+Es necesario declarar que al ser la variable dependiente una variable
+dicotómica, es decir que son valores 0 o 1. El modelo de regresión
+lineal no es la mejor opción y puede ser que los valores de
+coeficientes, sea mucho más alejados a una interpretación creíble.
+Adicionalmente el ajuste de algunas variables puede ser no
+significativo. Se destaca que existieron variables como las horas de
+sueño, horas de pantalla que fueron añadidas en un incio pero fueron
+descartadas al no cumplir el estándar del 95\% de significancia, fueron
+añadidas bajo un pretexto de intuición y exploración.
+
+\begin{itemize}
+\tightlist
+\item
+  Análisis posterior a la entrega de resultados:
+\end{itemize}
+
+Resultado de un R cuadrado de 0.253, lo que nos dice que es capaz de
+explicar un 25,3\% de la variabilidad. Si bien no es un valor alto, es
+aceptable dado la cantidad de ruido que puede existir a la hora de
+entregar un resultado.
+
+Un resultado curioso es el caso de las variables
+``exercise\_minutes:mental\_health\_score'', debido a que el modelo
+detecta una multicolinealidad perfecta, lo cuál nos da la interpretación
+que el ejercicio esta directamente relacionado con la salud mental :).
+
+\begin{itemize}
+\tightlist
+\item
+  Interpretación a los coeficientes:
+\end{itemize}
+
+El valor de intercepto (0.7941) para la referencia para estudiantes de
+Undergraduate es que es un grupo dispuesto a rendir un examen. respecto
+a los otros grupos, se observa una ligera disminución al estándar de
+presentarse a un examen.
+
+Es importante analizar que la productividad y bunout (Estrés), son
+variables que logran explicar el comportamiento de asistencia, para el
+primer caso podemos ver que por cada punto de productividad aumenta un
+9,93\% la probabilidad de asistir, para el incremento de un punto de
+agotamiento disminuye en un 2,3\% de asistir. Lo que nos refleja una
+voluntad predeterminada de asistir a un examen de todas formas.
+
+Para las interacciones de upcoming\_deadline y horas de estudio podemos
+observar que posee una sinergía positiva, si bien el valor del
+coeficiente es pequeño. La hora de estudio es más efectiva para asistir
+al examen. Para el caso de horas de estudio y indice de concentración
+podemos ver algo contraintuitivo, debido a su signo negativo, porque a
+medida que aumenta la concentración, el impacto en las horas de estudio
+sobre la asistencia disminuye.
+
+Jugar videojuegos reduce la probabilidad asistir al examen en un 3,7\%.
+Para el caso de las horas de redes sociales la probabilidad disminuye en
+un 0.81\%, lo que deja sentido interpretativo (acumulación de las horas
+de redes sociales) de cara a lo que es la asistencia a un examen.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{47}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} 1. Asegurar que \PYZsq{}Exam\PYZsq{} sea numérica (0 o 1)}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}numeric}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{errors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coerce}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} 2. Seleccionar variables X y asegurar que sean numéricas, se añadio una referencia al modelo para que tome como referencia el nivel académico de \PYZdq{}Undergraduate\PYZdq{} y se añadieron interacciones entre las variables que tienen más correlación con el exam score, como lo son productivity\PYZus{}score, burnout\PYZus{}level, focus\PYZus{}index y plays\PYZus{}games, además de añadir la interacción entre exercise\PYZus{}minutes y mental\PYZus{}health\PYZus{}score ya que estas variables también tienen una correlación importante con el exam score y podrían tener un efecto conjunto en el resultado del examen.}
+\PY{n}{formula} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam \PYZti{} productivity\PYZus{}score + burnout\PYZus{}level + upcoming\PYZus{}deadline:study\PYZus{}hours + C(academic\PYZus{}level, Treatment(reference=}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{Undergraduate}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{)) + study\PYZus{}hours:focus\PYZus{}index + plays\PYZus{}games + social\PYZus{}media\PYZus{}hours + exercise\PYZus{}minutes:mental\PYZus{}health\PYZus{}score }\PY{l+s+s1}{\PYZsq{}}
+
+\PY{c+c1}{\PYZsh{} 3. Ajustar el modelo con errores robustos (indispensable en MPL)}
+\PY{n}{modelo\PYZus{}ols} \PY{o}{=} \PY{n}{smf}\PY{o}{.}\PY{n}{ols}\PY{p}{(}\PY{n}{formula}\PY{p}{,} \PY{n}{data}\PY{o}{=}\PY{n}{data}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{cov\PYZus{}type}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{HC1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{modelo\PYZus{}ols}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+                            OLS Regression Results
+==============================================================================
+Dep. Variable:                   Exam   R-squared:                       0.255
+Model:                            OLS   Adj. R-squared:                  0.253
+Method:                 Least Squares   F-statistic:                     81.67
+Date:               vie, 17 abr. 2026   Prob (F-statistic):          2.08e-141
+Time:                        16:16:37   Log-Likelihood:                -82.977
+No. Observations:                4747   AIC:                             186.0
+Df Residuals:                    4737   BIC:                             250.6
+Df Model:                           9
+Covariance Type:                  HC1
+================================================================================
+===========================================================
+coef    std err          z      P>|z|      [0.025      0.975]
+--------------------------------------------------------------------------------
+-----------------------------------------------------------
+Intercept
+0.7941      0.023     33.811      0.000       0.748       0.840
+C(academic\_level, Treatment(reference="Undergraduate"))[T.High School]
+-0.0319      0.009     -3.606      0.000      -0.049      -0.015
+C(academic\_level, Treatment(reference="Undergraduate"))[T.Postgraduate]
+-0.0214      0.008     -2.522      0.012      -0.038      -0.005
+productivity\_score
+0.0993      0.005     20.159      0.000       0.090       0.109
+burnout\_level
+-0.0232      0.003     -7.341      0.000      -0.029      -0.017
+upcoming\_deadline:study\_hours
+0.0082      0.001      6.025      0.000       0.006       0.011
+study\_hours:focus\_index
+-0.0053      0.001     -8.158      0.000      -0.007      -0.004
+plays\_games
+-0.0403      0.011     -3.816      0.000      -0.061      -0.020
+social\_media\_hours
+-0.0085      0.002     -3.420      0.001      -0.013      -0.004
+exercise\_minutes:mental\_health\_score
+-0.0018      0.001     -3.338      0.001      -0.003      -0.001
+==============================================================================
+Omnibus:                     1542.540   Durbin-Watson:                   2.023
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):             4138.343
+Skew:                          -1.762   Prob(JB):                         0.00
+Kurtosis:                       5.915   Cond. No.                         126.
+==============================================================================
+
+Notes:
+[1] Standard Errors are heteroscedasticity robust (HC1)
+    \end{Verbatim}
+
+    \section{3. Ejecución de un modelo
+probit}\label{ejecuciuxf3n-de-un-modelo-probit}
+
+Acá es necesario considerar la diferencia con el modelo anterior, dado
+que si bien posee un mejor ajuste a la materia de estudio de la variable
+dependiente. Establece otro criterios al analisís específico de los
+coeficientes.
+
+Dentro del analisís de los valores estádisticos, podemos observar que
+aumento R cuadrado aumento (Es diferente tratamiento al MCO). El valor
+de LLR es cero, por lo que nos dice que el modelo es signiicativamente
+mejor. Observamos que el caso de exercise\_minutes:mental\_health\_score
+no es significa e intuitivamente nos puede señal el mismo problema del
+caso anterior (multicolinealidad).
+
+\begin{itemize}
+\tightlist
+\item
+  Analisis de los coeficientes:
+\end{itemize}
+
+Respecto a los ecoeficientes podemos observar que poseen un
+comportamiento similar al modelo anterior (signo del diferencial), lo
+que nos explica de raíz las mismas consecuencias señaladas
+anteriormente. A mayor coeficiente positivo nos explica una tendencia
+positiva a asistir al examén.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{48}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Ahora realizamos un modelo probit con las mismas condicones que los ejemplos anteriores}
+\PY{c+c1}{\PYZsh{}dejare la formula a utilizar en los sigueinte modelos.}
+\PY{n}{formula\PYZus{}logit} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam \PYZti{} productivity\PYZus{}score + burnout\PYZus{}level + upcoming\PYZus{}deadline:mental\PYZus{}health\PYZus{}score + C(academic\PYZus{}level, Treatment(reference=}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{Undergraduate}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{)) + study\PYZus{}hours:focus\PYZus{}index + plays\PYZus{}games + social\PYZus{}media\PYZus{}hours  + exercise\PYZus{}minutes:mental\PYZus{}health\PYZus{}score }\PY{l+s+s1}{\PYZsq{}}
+
+\PY{n}{modelo\PYZus{}probit} \PY{o}{=} \PY{n}{smf}\PY{o}{.}\PY{n}{probit}\PY{p}{(}\PY{n}{formula\PYZus{}logit}\PY{p}{,} \PY{n}{data}\PY{o}{=}\PY{n}{data}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{cov\PYZus{}type}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{HC1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{modelo\PYZus{}probit}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}\PY{p}{)}  
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Optimization terminated successfully.
+         Current function value: 0.129529
+         Iterations 9
+                          Probit Regression Results
+==============================================================================
+Dep. Variable:                   Exam   No. Observations:                 4747
+Model:                         Probit   Df Residuals:                     4737
+Method:                           MLE   Df Model:                            9
+Date:               vie, 17 abr. 2026   Pseudo R-squ.:                  0.5696
+Time:                        16:16:37   Log-Likelihood:                -614.87
+converged:                       True   LL-Null:                       -1428.7
+Covariance Type:                  HC1   LLR p-value:                     0.000
+================================================================================
+===========================================================
+coef    std err          z      P>|z|      [0.025      0.975]
+--------------------------------------------------------------------------------
+-----------------------------------------------------------
+Intercept
+1.2205      0.261      4.680      0.000       0.709       1.732
+C(academic\_level, Treatment(reference="Undergraduate"))[T.High School]
+-0.3499      0.100     -3.510      0.000      -0.545      -0.155
+C(academic\_level, Treatment(reference="Undergraduate"))[T.Postgraduate]
+-0.2263      0.101     -2.248      0.025      -0.424      -0.029
+productivity\_score
+0.9438      0.077     12.181      0.000       0.792       1.096
+burnout\_level
+-0.4110      0.039    -10.487      0.000      -0.488      -0.334
+upcoming\_deadline:mental\_health\_score
+0.0829      0.019      4.336      0.000       0.045       0.120
+study\_hours:focus\_index
+0.0521      0.016      3.360      0.001       0.022       0.083
+plays\_games
+-0.3159      0.141     -2.240      0.025      -0.592      -0.040
+social\_media\_hours
+-0.0508      0.028     -1.794      0.073      -0.106       0.005
+exercise\_minutes:mental\_health\_score
+0.0036      0.011      0.320      0.749      -0.018       0.026
+================================================================================
+===========================================================
+
+Possibly complete quasi-separation: A fraction 0.40 of observations can be
+perfectly predicted. This might indicate that there is complete
+quasi-separation. In this case some parameters will not be identified.
+    \end{Verbatim}
+
+    \section{4. Ejecución de un modelo
+logístico.}\label{ejecuciuxf3n-de-un-modelo-loguxedstico.}
+
+Acá es necesario considerar la diferencia con el modelo anterior, este
+modelo posee la misma función que el anterior pero lo realiza a un
+mecanismo diferente. Es mucho más eficiente y diseñado para la variable
+dependiente de esta tarea.
+
+Dentro del analisís de los valores estádisticos, podemos observar que
+aumento R cuadrado a 0.57, lo que nos evidencia posiblemente un buen
+ajuste del modelo.
+
+\begin{itemize}
+\tightlist
+\item
+  Analisis de los coeficientes:
+\end{itemize}
+
+Respecto a los coeficientes, podemos ver la tendencia de asistir al
+examén. para el caso de high school y postgrado, en este caso las
+variables son significativas, pero no cambia la interpretación que se
+dio en el MCO. Siguen siendo grupos con una disposición negativa a
+asistir.
+
+Respecto a la productividad, posee el coeficiente más alto con un valor
+de 1.78, siendo el predictor más potente para declarar asistencia al
+examén. Para el cansancio por cada unidad de de aumento en agotamiento,
+la probabilidad de asietncia disminuye. Aplica el mismo caso de jugar
+video juegos.
+
+Para las interacciones, podemos ver una alta puntuación en salud mental
+logra poder presentarse al examen de cara a la fecha limite. Aplica la
+misma logica, pero para el caso contrario. Respecto a las horas de
+estudio y la concentración, podemos observar que a medida que importa
+radicalmente el estudio pero con un índice de concentración alto.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{49}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Ahora realiazaremos el modelo logitico para ver si podemos obtener mejores resultados, ya que el modelo lineal no es el más adecuado para una variable dependiente binaria como lo es el exam score.}
+\PY{c+c1}{\PYZsh{} 1. Asegurar que \PYZsq{}Exam\PYZsq{} sea numérica (0 o 1)}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}numeric}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{errors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coerce}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} 2. Seleccionar variables X y asegurar que sean numéricas}
+\PY{n}{formula\PYZus{}logit} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam \PYZti{} productivity\PYZus{}score + burnout\PYZus{}level + upcoming\PYZus{}deadline:mental\PYZus{}health\PYZus{}score + C(academic\PYZus{}level, Treatment(reference=}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{Undergraduate}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{)) + study\PYZus{}hours:focus\PYZus{}index + plays\PYZus{}games + social\PYZus{}media\PYZus{}hours  + exercise\PYZus{}minutes:mental\PYZus{}health\PYZus{}score }\PY{l+s+s1}{\PYZsq{}}
+\PY{c+c1}{\PYZsh{} 3. Ajustar el modelo logístico con errores robustos}
+\PY{n}{modelo\PYZus{}logit} \PY{o}{=} \PY{n}{smf}\PY{o}{.}\PY{n}{logit}\PY{p}{(}\PY{n}{formula\PYZus{}logit}\PY{p}{,} \PY{n}{data}\PY{o}{=}\PY{n}{data}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{cov\PYZus{}type}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{HC1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{mfx} \PY{o}{=} \PY{n}{modelo\PYZus{}logit}\PY{o}{.}\PY{n}{get\PYZus{}margeff}\PY{p}{(}\PY{n}{at}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{overall}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{modelo\PYZus{}logit}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{c+c1}{\PYZsh{}La separación es para diferenciar el resumen del modelo logit con los efectos marginales, ya que estos últimos son los que nos permiten interpretar mejor los resultados del modelo logitico.}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{mfx}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Optimization terminated successfully.
+         Current function value: 0.129388
+         Iterations 10
+                           Logit Regression Results
+==============================================================================
+Dep. Variable:                   Exam   No. Observations:                 4747
+Model:                          Logit   Df Residuals:                     4737
+Method:                           MLE   Df Model:                            9
+Date:               vie, 17 abr. 2026   Pseudo R-squ.:                  0.5701
+Time:                        16:16:37   Log-Likelihood:                -614.20
+converged:                       True   LL-Null:                       -1428.7
+Covariance Type:                  HC1   LLR p-value:                     0.000
+================================================================================
+===========================================================
+coef    std err          z      P>|z|      [0.025      0.975]
+--------------------------------------------------------------------------------
+-----------------------------------------------------------
+Intercept
+2.1405      0.501      4.273      0.000       1.159       3.122
+C(academic\_level, Treatment(reference="Undergraduate"))[T.High School]
+-0.6140      0.185     -3.313      0.001      -0.977      -0.251
+C(academic\_level, Treatment(reference="Undergraduate"))[T.Postgraduate]
+-0.3939      0.187     -2.108      0.035      -0.760      -0.028
+productivity\_score
+1.7856      0.145     12.348      0.000       1.502       2.069
+burnout\_level
+-0.7420      0.074    -10.021      0.000      -0.887      -0.597
+upcoming\_deadline:mental\_health\_score
+0.1568      0.037      4.292      0.000       0.085       0.228
+study\_hours:focus\_index
+0.0875      0.030      2.890      0.004       0.028       0.147
+plays\_games
+-0.5972      0.258     -2.317      0.020      -1.102      -0.092
+social\_media\_hours
+-0.0967      0.052     -1.849      0.064      -0.199       0.006
+exercise\_minutes:mental\_health\_score
+0.0037      0.021      0.173      0.863      -0.038       0.045
+================================================================================
+===========================================================
+
+Possibly complete quasi-separation: A fraction 0.22 of observations can be
+perfectly predicted. This might indicate that there is complete
+quasi-separation. In this case some parameters will not be identified.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+        Logit Marginal Effects
+=====================================
+Dep. Variable:                   Exam
+Method:                          dydx
+At:                           overall
+================================================================================
+===========================================================
+dy/dx    std err          z      P>|z|      [0.025      0.975]
+--------------------------------------------------------------------------------
+-----------------------------------------------------------
+C(academic\_level, Treatment(reference="Undergraduate"))[T.High School]
+-0.0237      0.007     -3.336      0.001      -0.038      -0.010
+C(academic\_level, Treatment(reference="Undergraduate"))[T.Postgraduate]
+-0.0152      0.007     -2.116      0.034      -0.029      -0.001
+productivity\_score
+0.0691      0.005     14.690      0.000       0.060       0.078
+burnout\_level
+-0.0287      0.003    -10.227      0.000      -0.034      -0.023
+upcoming\_deadline:mental\_health\_score
+0.0061      0.001      4.357      0.000       0.003       0.009
+study\_hours:focus\_index
+0.0034      0.001      2.858      0.004       0.001       0.006
+plays\_games
+-0.0231      0.010     -2.337      0.019      -0.042      -0.004
+social\_media\_hours
+-0.0037      0.002     -1.856      0.063      -0.008       0.000
+exercise\_minutes:mental\_health\_score
+0.0001      0.001      0.173      0.863      -0.001       0.002
+================================================================================
+===========================================================
+    \end{Verbatim}
+
+    \section{5. Comente los resultados obtenidos en 2, 3 y 4. ¿Cuáles y por
+qué existen las diferencias entre los resultados?. En su opinión, ¿Cuál
+sería el más adecuado para responder la pregunta de investgación y por
+qué? ¿Qué variables resultaron ser robustas a la
+especificación?}\label{comente-los-resultados-obtenidos-en-2-3-y-4.-cuuxe1les-y-por-quuxe9-existen-las-diferencias-entre-los-resultados.-en-su-opiniuxf3n-cuuxe1l-seruxeda-el-muxe1s-adecuado-para-responder-la-pregunta-de-investgaciuxf3n-y-por-quuxe9-quuxe9-variables-resultaron-ser-robustas-a-la-especificaciuxf3n}
+
+\begin{itemize}
+\tightlist
+\item
+  Respecto a las diferencias, podemos notar cambios en los R cuadrados
+  de los modelos anteriores, se vio que para el MCO dio un valor de 0,25
+  y para los 2 siguientes fueron duplicados. Esto se debe en mi opinión
+  a que ambos modelos planteados en logit y probit son mucho más
+  eficientes para el tratamiento con variables dummie o potencialmente
+  predictoras para este caso, que buscamos determinar la ocurrencia de
+  un evento según una variable binaria.
+\item
+  El más adecuado en mi opinión es el modelo logístico, seguido del
+  probit. Debido a su potencial configuración y adapatación de las
+  variables imputadas, en el modelo logístico se observa mucho más
+  robustez en el valor de los coeficientes y adicionalmente entrega una
+  interpretación mucho más intuitiva.
+\item
+  Las variables robustas a la especificación resultaron ser: El puntaje
+  de productividad, siendo un predictor positivo. El nivel de cansancio
+  siendo un predictor negativo. La jerarquia de niveles academicos
+  intuye que los estudiantes de pregrado tienen mayor tendencia a la
+  asistencia de examenes que los otros 2 grupos. Las horas de estudio y
+  el indice de concentración resultaron ser positivas (intuitivamente se
+  podría inferir) válida que las horas es efectiva, sobre todo si hay un
+  nivel de concentración por detrás.
+\end{itemize}
+
+\subsubsection{A continuación se muestra la tabla de resultados
+comparativos.}\label{a-continuaciuxf3n-se-muestra-la-tabla-de-resultados-comparativos.}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{50}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{stargazer} \PY{o}{=} \PY{n}{Stargazer}\PY{p}{(}\PY{p}{[}\PY{n}{modelo\PYZus{}ols}\PY{p}{,} \PY{n}{modelo\PYZus{}logit}\PY{p}{,} \PY{n}{modelo\PYZus{}probit}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 3. Configuración de la visualización}
+\PY{n}{stargazer}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Comparación de Modelos: OLS, Logit y Probit}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{stargazer}\PY{o}{.}\PY{n}{custom\PYZus{}columns}\PY{p}{(}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Modelo OLS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Modelo Logit}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Modelo Probit}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\PY{n}{stargazer}\PY{o}{.}\PY{n}{add\PYZus{}custom\PYZus{}notes}\PY{p}{(}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Nota: Todos los modelos utilizan errores estándar robustos (HC1).}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{stargazer}\PY{o}{.}\PY{n}{add\PYZus{}custom\PYZus{}notes}\PY{p}{(}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Nota: Se modificaron algunas variables respecto a los modelos anteriores.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{c+c1}{\PYZsh{} por alguna razón queda la ultima nota xd}
+
+\PY{c+c1}{\PYZsh{} 4. Renderizado para Jupyter Notebook}
+\PY{n}{HTML}\PY{p}{(}\PY{n}{stargazer}\PY{o}{.}\PY{n}{render\PYZus{}html}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{50}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<IPython.core.display.HTML object>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{51}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Realizamos una comparatriva con los mdelos anteriores para ver cual es el mejor modelo para predecir si un estudiante aprueba o no el examen (Exam) utilizando las variables numéricas seleccionadas.}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Comparativa de Modelos:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Modelo OLS: AIC = }\PY{l+s+si}{\PYZob{}}\PY{n}{modelo\PYZus{}ols}\PY{o}{.}\PY{n}{aic}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, BIC = }\PY{l+s+si}{\PYZob{}}\PY{n}{modelo\PYZus{}ols}\PY{o}{.}\PY{n}{bic}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Modelo Logit: AIC = }\PY{l+s+si}{\PYZob{}}\PY{n}{modelo\PYZus{}logit}\PY{o}{.}\PY{n}{aic}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, BIC = }\PY{l+s+si}{\PYZob{}}\PY{n}{modelo\PYZus{}logit}\PY{o}{.}\PY{n}{bic}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Modelo Probit: AIC = }\PY{l+s+si}{\PYZob{}}\PY{n}{modelo\PYZus{}probit}\PY{o}{.}\PY{n}{aic}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, BIC = }\PY{l+s+si}{\PYZob{}}\PY{n}{modelo\PYZus{}probit}\PY{o}{.}\PY{n}{bic}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Comparativa de Modelos:
+Modelo OLS: AIC = 185.95, BIC = 250.61
+Modelo Logit: AIC = 1248.41, BIC = 1313.06
+Modelo Probit: AIC = 1249.75, BIC = 1314.40
+    \end{Verbatim}
+
+    \section{6. Usando un modelo poisson para explicar la nota del examén,
+explicar los
+resultados.}\label{usando-un-modelo-poisson-para-explicar-la-nota-del-examuxe9n-explicar-los-resultados.}
+
+El modelo explica un 39,4\% de la variabilidad de las notas. Y es
+considerablemente significativo en todo su conjunto ya que posee un LLR
+cero. Respecto a la interpretación de los resultados del modelo.
+
+\begin{itemize}
+\tightlist
+\item
+  Análisis de los coeficientes:
+\end{itemize}
+
+Para el caso de nuestra variable más robusta ``productividad'', podemos
+decir que que por cada punto adicional de productividad, la nota
+esperada del examen, aumenta en un 25,22\%, lo que nos deja una
+evidencia crítica. El agotamiento es un detractor directo con un 7,91\%
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{52}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Ahora usaremos un modelo Poisson para poder explicar la nota del examen , entre los que rindieron ele xamen. Seleccionar las variables dependientes para el modelo.}
+\PY{c+c1}{\PYZsh{} 1. Filtrar solo los estudiantes que rindieron el examen (Exam = 1)}
+\PY{n}{data\PYZus{}examen} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{]}
+\PY{c+c1}{\PYZsh{} 2. Seleccionar variables X y asegurar que sean numéricas}
+\PY{n}{formula\PYZus{}poisson} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exam\PYZus{}score \PYZti{} productivity\PYZus{}score + burnout\PYZus{}level + upcoming\PYZus{}deadline:mental\PYZus{}health\PYZus{}score + C(academic\PYZus{}level, Treatment(reference=}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{Undergraduate}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{)) + study\PYZus{}hours:focus\PYZus{}index + plays\PYZus{}games + social\PYZus{}media\PYZus{}hours  + exercise\PYZus{}minutes:mental\PYZus{}health\PYZus{}score }\PY{l+s+s1}{\PYZsq{}}
+\PY{c+c1}{\PYZsh{} 3. Ajustar el modelo Poisson con errores robustos}
+\PY{n}{modelo\PYZus{}poisson} \PY{o}{=} \PY{n}{smf}\PY{o}{.}\PY{n}{poisson}\PY{p}{(}\PY{n}{formula\PYZus{}poisson}\PY{p}{,} \PY{n}{data}\PY{o}{=}\PY{n}{data\PYZus{}examen}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{cov\PYZus{}type}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{HC1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{modelo\PYZus{}poisson}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Optimization terminated successfully.
+         Current function value: 3.289092
+         Iterations 5
+                          Poisson Regression Results
+==============================================================================
+Dep. Variable:             exam\_score   No. Observations:                 4323
+Model:                        Poisson   Df Residuals:                     4313
+Method:                           MLE   Df Model:                            9
+Date:               vie, 17 abr. 2026   Pseudo R-squ.:                  0.4144
+Time:                        16:16:37   Log-Likelihood:                -14219.
+converged:                       True   LL-Null:                       -24280.
+Covariance Type:                  HC1   LLR p-value:                     0.000
+================================================================================
+===========================================================
+coef    std err          z      P>|z|      [0.025      0.975]
+--------------------------------------------------------------------------------
+-----------------------------------------------------------
+Intercept
+2.2425      0.028     79.067      0.000       2.187       2.298
+C(academic\_level, Treatment(reference="Undergraduate"))[T.High School]
+0.0018      0.011      0.166      0.868      -0.019       0.023
+C(academic\_level, Treatment(reference="Undergraduate"))[T.Postgraduate]
+-0.0022      0.010     -0.214      0.831      -0.023       0.018
+productivity\_score
+0.2646      0.006     43.303      0.000       0.253       0.277
+burnout\_level
+-0.0807      0.004    -19.775      0.000      -0.089      -0.073
+upcoming\_deadline:mental\_health\_score
+0.0027      0.001      2.023      0.043    8.43e-05       0.005
+study\_hours:focus\_index
+0.0023      0.001      2.189      0.029       0.000       0.004
+plays\_games
+-0.0245      0.014     -1.807      0.071      -0.051       0.002
+social\_media\_hours
+-0.0188      0.003     -6.073      0.000      -0.025      -0.013
+exercise\_minutes:mental\_health\_score
+0.0023      0.001      2.864      0.004       0.001       0.004
+================================================================================
+===========================================================
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{53}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Veemos la predicción del modelo Poisson para los estudiantes que rindieron el examen, para ver si el modelo es capaz de predecir la nota del examen (exam\PYZus{}score) utilizando las variables seleccionadas.}
+\PY{n}{data\PYZus{}examen}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{predicted\PYZus{}exam\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{modelo\PYZus{}poisson}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{data\PYZus{}examen}\PY{p}{)}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data\PYZus{}examen}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exam\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{predicted\PYZus{}exam\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{poisson} \PY{o}{=} \PY{n}{smf}\PY{o}{.}\PY{n}{glm}\PY{p}{(}\PY{n}{formula\PYZus{}poisson}\PY{p}{,} \PY{n}{data}\PY{o}{=}\PY{n}{data\PYZus{}examen}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{cov\PYZus{}type}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{HC1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{c+c1}{\PYZsh{} ajustamos el modelo Poisson para poder obtener el valor de alpha para ver si el modelo de Poisson es adecuado para explicar la variable dependiente \PYZsq{}exam\PYZus{}score\PYZsq{} o si es necesario utilizar un modelo de binomial negativo debido a la presencia de sobredispersión en los datos.}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+   exam\_score  predicted\_exam\_score
+0       25.08             21.290605
+1       37.83             37.875137
+2       18.66             18.243329
+4        7.78              9.174558
+5       12.74             20.013810
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+C:\textbackslash{}Users\textbackslash{}Matias Arriagada R\textbackslash{}AppData\textbackslash{}Local\textbackslash{}Temp\textbackslash{}ipykernel\_28528\textbackslash{}131827114.py:2:
+SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row\_indexer,col\_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-
+docs/stable/user\_guide/indexing.html\#returning-a-view-versus-a-copy
+  data\_examen['predicted\_exam\_score'] =
+modelo\_poisson.predict(data\_examen).astype(float)
+    \end{Verbatim}
+
+    \section{7. Determinación de dispersión en la data y posible valor
+optimo de alpha para la binomial
+negativa.}\label{determinaciuxf3n-de-dispersiuxf3n-en-la-data-y-posible-valor-optimo-de-alpha-para-la-binomial-negativa.}
+
+\subsubsection{Test overdispersion}\label{test-overdispersion}
+
+A simple test for overdispersion can be determined with the results of
+the Poisson model, using the ratio of Pearson chi2 / Df Residuals. A
+value larger than 1 indicates overdispersion.
+
+The Negative Binomial model estimated above jointly with \(\alpha\). In
+some applications we need to determine the appropiate value of
+\(\alpha\), so you can estimate a simple regression using the output of
+the Poisson model:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Construct the following variable
+  aux=\([(y-\lambda)^2-\lambda]/\lambda\)
+\item
+  Regress the variable aux with \(\lambda\) as the only explanatory
+  variable (no constant)
+\item
+  The estimated value is an appropiate guess for \(\alpha\)
+\end{enumerate}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{54}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Comparar media y varianza como analisis transitorio}
+\PY{n}{media} \PY{o}{=} \PY{n}{data\PYZus{}examen}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exam\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{varianza} \PY{o}{=} \PY{n}{data\PYZus{}examen}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exam\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{var}\PY{p}{(}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Media: }\PY{l+s+si}{\PYZob{}}\PY{n}{media}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Varianza: }\PY{l+s+si}{\PYZob{}}\PY{n}{varianza}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{k}{if} \PY{n}{varianza} \PY{o}{\PYZgt{}} \PY{n}{media}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Posible sobre\PYZhy{}dispersión detectada.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{else}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{No se detecta sobre\PYZhy{}dispersión.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}El valor de alpha optimo para el modelo de binomial negativo se puede obtener a través de la función de verosimilitud del modelo Poisson ajustado. Si el modelo Poisson muestra sobre\PYZhy{}dispersión (varianza mayor que la media), entonces el modelo de binomial negativo podría ser más adecuado, y el valor de alpha se puede estimar a partir del modelo de binomial negativo ajustado. Sin embargo, en este caso, dado que no se detecta sobre\PYZhy{}dispersión, el modelo de Poisson podría ser suficiente para explicar la variable dependiente \PYZsq{}exam\PYZus{}score\PYZsq{}.}
+\PY{c+c1}{\PYZsh{}Realizamos el calculo del valor optimo}
+
+\PY{n}{alpha\PYZus{}optimo} \PY{o}{=} \PY{p}{(}\PY{n}{varianza} \PY{o}{\PYZhy{}} \PY{n}{media}\PY{p}{)} \PY{o}{/} \PY{p}{(}\PY{n}{media} \PY{o}{*}\PY{o}{*} \PY{l+m+mi}{2}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Valor óptimo de alpha para el modelo de binomial negativo: }\PY{l+s+si}{\PYZob{}}\PY{n}{alpha\PYZus{}optimo}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}Ahora veemos el valor optimo de alpha para el modelo de binomial negativo, si este valor es cercano a cero, entonces el modelo de Poisson es adecuado, pero si el valor es mayor a cero, entonces el modelo de binomial negativo podría ser más adecuado para explicar la variable dependiente \PYZsq{}exam\PYZus{}score\PYZsq{}.}
+\PY{n}{aux}\PY{o}{=}\PY{p}{(}\PY{p}{(}\PY{n}{data\PYZus{}examen}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{predicted\PYZus{}exam\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{poisson}\PY{o}{.}\PY{n}{mu}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{o}{\PYZhy{}}\PY{n}{poisson}\PY{o}{.}\PY{n}{mu}\PY{p}{)}\PY{o}{/}\PY{n}{poisson}\PY{o}{.}\PY{n}{mu}
+\PY{n}{auxr}\PY{o}{=}\PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{aux}\PY{p}{,}\PY{n}{poisson}\PY{o}{.}\PY{n}{mu}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{auxr}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Media: 20.62
+Varianza: 127.76
+Posible sobre-dispersión detectada.
+Valor óptimo de alpha para el modelo de binomial negativo: 0.2519
+                                  OLS Regression Results
+================================================================================
+=========
+Dep. Variable:     predicted\_exam\_score   R-squared (uncentered):
+0.000
+Model:                              OLS   Adj. R-squared (uncentered):
+0.000
+Method:                   Least Squares   F-statistic:
+1.355
+Date:                 vie, 17 abr. 2026   Prob (F-statistic):
+0.244
+Time:                          16:16:37   Log-Likelihood:
+-20150.
+No. Observations:                  4323   AIC:
+4.030e+04
+Df Residuals:                      4322   BIC:
+4.031e+04
+Df Model:                             1
+Covariance Type:              nonrobust
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+x1            -0.0198      0.017     -1.164      0.244      -0.053       0.014
+==============================================================================
+Omnibus:                     6953.489   Durbin-Watson:                   1.992
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):         67772391.361
+Skew:                           9.292   Prob(JB):                         0.00
+Kurtosis:                     616.112   Cond. No.                         1.00
+==============================================================================
+
+Notes:
+[1] R² is computed without centering (uncentered) since the model does not
+contain a constant.
+[2] Standard Errors assume that the covariance matrix of the errors is correctly
+specified.
+    \end{Verbatim}
+
+    \paragraph{Valor de alpha}\label{valor-de-alpha}
+
+En este caso el valor de alpha nos dio mayor a cero y no cercano, por lo
+que es necesario utilizar el modelo binomial negativo.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{55}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{A} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.0198}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{El valor de alpha es:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{A}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+El valor de alpha es: 0.9804
+    \end{Verbatim}
+
+    \section{8. Ejecutar un modelo binomial negativa para responder la
+pregunta
+6}\label{ejecutar-un-modelo-binomial-negativa-para-responder-la-pregunta-6}
+
+En este caso podemos observar que dentro de los valores del coeficiente,
+es correcto mencionar que el rol de la productividad afecta notoriamente
+al modelo con un valor cercano al 35,04\% en la nota del examen. Acá se
+incluyo la salud mental al modelo, en el que se logra establecer como
+significativo, dejando a enteder que un puntaje alto en salud mental se
+asocia en un -3\% en la nota (causa mucha curiosidad esto y es
+debatible, a priori se podría hacer como un efecto de relajación en el
+estudiante). En este modelo se priorizo variables individuales para ver
+el efecto. El rol de las horas de estudios tambien causa cierta
+sorpresa.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{56}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Definir la fórmula (usando las mismas dimensiones lógicas)}
+\PY{n}{formula} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exam\PYZus{}score \PYZti{} productivity\PYZus{}score + study\PYZus{}hours + mental\PYZus{}health\PYZus{}score + focus\PYZus{}index + C(academic\PYZus{}level)}\PY{l+s+s1}{\PYZsq{}}
+
+\PY{c+c1}{\PYZsh{} Ajustar el modelo Binomial Negativa}
+\PY{c+c1}{\PYZsh{} El parámetro \PYZsq{}alpha\PYZsq{} se estima internamente por defecto si uno quisiera ejecutar el modelo de binomial negativo sin especificar el valor de alpha, se puede hacer de la siguiente manera:}
+\PY{c+c1}{\PYZsh{} Pero en este caso decidí realizar el arreglo de forma manual para poder mostrar el valor de alpha que se obtiene a partir del modelo de binomial negativo, ya que este valor es importante para determinar si el modelo de Poisson es adecuado o si es necesario utilizar un modelo de binomial negativo debido a la presencia de sobredispersión en los datos.}
+\PY{n}{modelo\PYZus{}nb} \PY{o}{=} \PY{n}{smf}\PY{o}{.}\PY{n}{glm}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{exam\PYZus{}score \PYZti{} productivity\PYZus{}score + study\PYZus{}hours + mental\PYZus{}health\PYZus{}score + focus\PYZus{}index + C(academic\PYZus{}level)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{data}\PY{o}{=}\PY{n}{data\PYZus{}examen}\PY{p}{,}\PY{n}{family}\PY{o}{=}\PY{n}{sm}\PY{o}{.}\PY{n}{families}\PY{o}{.}\PY{n}{NegativeBinomial}\PY{p}{(}\PY{n}{alpha}\PY{o}{=}\PY{n}{A}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{modelo\PYZus{}nb}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}\PYZus{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}Realizamos el ajuste determinado del modelo pero con la busqueda de un alpha estimado autimáticamente para ver algún efecto secundario}
+\PY{n}{modelo\PYZus{}nb\PYZus{}ajustado} \PY{o}{=} \PY{n}{smf}\PY{o}{.}\PY{n}{negativebinomial}\PY{p}{(}\PY{n}{formula}\PY{p}{,} \PY{n}{data}\PY{o}{=}\PY{n}{data\PYZus{}examen}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{modelo\PYZus{}nb\PYZus{}ajustado}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+                 Generalized Linear Model Regression Results
+==============================================================================
+Dep. Variable:             exam\_score   No. Observations:                 4323
+Model:                            GLM   Df Residuals:                     4316
+Model Family:        NegativeBinomial   Df Model:                            6
+Link Function:                    Log   Scale:                          1.0000
+Method:                          IRLS   Log-Likelihood:                -16967.
+Date:               vie, 17 abr. 2026   Deviance:                       652.53
+Time:                        16:16:37   Pearson chi2:                     533.
+No. Iterations:                     7   Pseudo R-squ. (CS):             0.2108
+Covariance Type:            nonrobust
+================================================================================
+======================
+                                         coef    std err          z      P>|z|
+[0.025      0.975]
+--------------------------------------------------------------------------------
+----------------------
+Intercept                              1.5630      0.071     22.162      0.000
+1.425       1.701
+C(academic\_level)[T.Postgraduate]     -0.0199      0.038     -0.525      0.600
+-0.094       0.054
+C(academic\_level)[T.Undergraduate]    -0.0051      0.038     -0.133      0.894
+-0.080       0.070
+productivity\_score                     0.3514      0.023     15.329      0.000
+0.306       0.396
+study\_hours                           -0.0551      0.015     -3.729      0.000
+-0.084      -0.026
+mental\_health\_score                   -0.0300      0.009     -3.221      0.001
+-0.048      -0.012
+focus\_index                            0.1238      0.026      4.835      0.000
+0.074       0.174
+================================================================================
+======================
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+Optimization terminated successfully.
+         Current function value: 3.240352
+         Iterations: 17
+         Function evaluations: 22
+         Gradient evaluations: 22
+                     NegativeBinomial Regression Results
+==============================================================================
+Dep. Variable:             exam\_score   No. Observations:                 4323
+Model:               NegativeBinomial   Df Residuals:                     4316
+Method:                           MLE   Df Model:                            6
+Date:               vie, 17 abr. 2026   Pseudo R-squ.:                  0.1519
+Time:                        16:16:38   Log-Likelihood:                -14008.
+converged:                       True   LL-Null:                       -16516.
+Covariance Type:            nonrobust   LLR p-value:                     0.000
+================================================================================
+======================
+                                         coef    std err          z      P>|z|
+[0.025      0.975]
+--------------------------------------------------------------------------------
+----------------------
+Intercept                              1.6467      0.023     72.748      0.000
+1.602       1.691
+C(academic\_level)[T.Postgraduate]     -0.0118      0.012     -1.010      0.313
+-0.035       0.011
+C(academic\_level)[T.Undergraduate]    -0.0009      0.012     -0.076      0.939
+-0.024       0.022
+productivity\_score                     0.3284      0.007     46.370      0.000
+0.314       0.342
+study\_hours                           -0.0507      0.005    -11.182      0.000
+-0.060      -0.042
+mental\_health\_score                   -0.0260      0.003     -9.049      0.000
+-0.032      -0.020
+focus\_index                            0.1131      0.008     14.363      0.000
+0.098       0.129
+alpha                                  0.0449      0.002     18.870      0.000
+0.040       0.050
+================================================================================
+======================
+    \end{Verbatim}
+
+    \section{9. Comentar los resultados de 6, 7 y 8. ¿Cuáles y por qué
+existen las diferencias entre los resultados?. En su opinión, ¿Cuál
+sería el más adecuado para responder la pregunta de investgación y por
+qué? ¿Qué variables resultaron ser robustas a la
+especificación?}\label{comentar-los-resultados-de-6-7-y-8.-cuuxe1les-y-por-quuxe9-existen-las-diferencias-entre-los-resultados.-en-su-opiniuxf3n-cuuxe1l-seruxeda-el-muxe1s-adecuado-para-responder-la-pregunta-de-investgaciuxf3n-y-por-quuxe9-quuxe9-variables-resultaron-ser-robustas-a-la-especificaciuxf3n}
+
+\begin{itemize}
+\tightlist
+\item
+  Las diferencias principales se traducen en un mayor efecto de
+  significancia del modelo binomial negativa frente al de poisson, si
+  bien el valor de diferencia más notorio fue solo en el ajuste del LL
+  menos negativo favoreciendo la binomial negativa de -14.985 a -14.705.
+\item
+  En mi opinión el más adecuado para responder es la binomial negativa
+  debido a los castigos que ofrece la Poisson para el caso de la
+  dispersión de datos. Debido a que en poisson como esta lambda con
+  media, implica adicionalmente que la media es igual a la varianza (no
+  es el caso nuestro), es por eso que la binomial negativa permite
+  atrapar esta restricción y relajarla, haciendo errores estándar más
+  ``correctos''.
+\item
+  Repite la misma respuesta de los casos anetriores, el nivel de
+  productividad es la variable más fuerte del modelo y es la que nos
+  permite la mejora academica, al igual que el bournot en efecto
+  contrario.
+\end{itemize}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
